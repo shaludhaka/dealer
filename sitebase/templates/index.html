@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+
+          <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                   <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                   <form role="search" class="navbar-form-custom" action=".">
+                      <div class="form-group">
+                         <input type="text" placeholder="Enter Dealer ID..." class="form-control autocomplete" name="dealer-id" id="top-search">
+                      </div>
+                   </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                   <li>
+                      <span class="m-r-sm text-muted welcome-message">Dealer Rating</span>
+                   </li>
+                   <li>
+                      <a href="/logout">
+                      <i class="fa fa-sign-out"></i> Log out
+                      </a>
+                   </li>
+                </ul>
+             </nav>
+
+          <div class="row wrapper border-bottom white-bg page-heading">
+             <div class="col-lg-10">
+                <h2>Chart.js</h2>
+                <ol class="breadcrumb">
+                   <li>
+                      <a href="/">Home</a>
+                   </li>
+                   <li>
+                      <a>Dealer Rating</a>
+                   </li>
+                   {% if dealer %}
+                   <li class="active">
+                      <strong>{{dealer.dealerid}}</strong>
+                   </li>
+                   {% endif %}
+                </ol>
+             </div>
+             <div class="col-lg-2">
+             </div>
+          </div>
+          <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="row">
+                {% if dealer %}
+                {% if dealer.final_rating > 3 %}
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title title">
+                        <h5>Okay To find</h5>
+                    </div>
+                </div>
+                {% elif dealer.final_rating < 3.0 %}
+                <div class="ibox float-e-margins" >
+                    <div class="ibox-title title">
+                       <h5>Not Okay To find</h5>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Overall Rating of {{dealer.dealerid}} </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="ct-chart6" class="ct-perfect-fourth c2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                   <div class="ibox float-e-margins">
+                      <div class="ibox-title">
+                         <h5>Ratings for {{dealer.dealerid}}</h5>
+                         <div ibox-tools></div>
+                      </div>
+                      <div class="ibox-content">
+                         <div>
+                            <canvas id="radarChart" class="c1"></canvas>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                  <div class="barChartClass">
+                    <div class="ibox float-e-margins">
+                    <div class="ibox-title title">
+                         <h5>Ratings For {{dealer.dealerid}}</h5>
+                         <div ibox-tools></div>
+                    </div>
+                    <div class="ibox-content chart">
+                        <div>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+
+                {% else %}
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h2>Enter Dealer ID </h2>
+                        </div>
+                        <div class="ibox-content">
+                            <form action=".">
+                              <div class="form-group">
+                                 <h5>Select Upload Date</h5>
+                                  <select id="upload_date" class="upload_date" name="selected-date" selected="0">
+                                      <option value="">Select Date</option>
+                                     {% for date in dates %}
+                                       <option value="{{date}}">{{date}}</option>
+                                     {% endfor %}
+                                 </select>
+                                 <input type="text" placeholder="Enter Dealer ID..." class="form-control autocomplete dealer-validate" name="dealer-id" value="">
+                                  {% if messages %}
+                                    {% for message in messages %}
+                                       <script>alert("{{message}}");</script>
+                                    {% endfor %}
+                                  {% endif %}
+                                  <div class="ibox float-e-margins">
+                                    <div class="ibox-content">
+                                       <a href = '/gridview' onclick="validate_all(event);">View all Ratings</a>
+                                    </div>
+                                  </div>
+                              </div>
+                           </form>
+                        </div>
+                    </div>
+
+                </div>
+                {% endif %}
+
+            </div>
+          </div>
+{% endblock %}
+
+{% block nav %}
+                <li class="active">
+                   <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                </li>
+                <li class="active">
+                   <a href="upload/"><i class=""></i> <span class="nav-label">Upload Data</span></a>
+                </li>
+                <li class="active">
+                   <a href="compare/"><i class=""></i> <span class="nav-label">Analysis</span></a>
+                </li>
+{% endblock %}
+
+{% block js %}
+
+function validate_all(event)
+{
+
+ var ddl = document.getElementById("upload_date");
+ var selectedValue = ddl.options[ddl.selectedIndex].value;
+    if (selectedValue == "")
+   {
+    alert("Please select an upload date");
+    event.preventDefault();
+   }
+}
+
+$(document).ready(function () {
+
+var getRatingColor = function(overallrating) {
+    if (overallrating < 1.5) {
+        return 'rgba(100,200,100,1)';
+    } else if (overallrating < 2.5) {
+        return 'rgba(250,250,50,1)';
+    } else if (overallrating < 3.5) {
+        return 'rgba(258,163,89,1)';
+    } else {
+        return 'rgba(237,85,101,1)';
+    }
+}
+var getRatingColorFill = function(overallrating) {
+    if (overallrating < 1.5) {
+        return 'rgba(100,200,100,0.2)';
+    } else if (overallrating < 2.5) {
+        return 'rgba(250,250,50,0.2)';
+    } else if (overallrating < 3.5) {
+        return 'rgba(258,163,89,0.2)';
+    } else {
+        return 'rgba(237,85,101,0.2)';
+    }
+}
+
+    var radarData = {
+        labels: ["Vintage", "Growth", "Severity", "Instance", "Recency", "Util by Credit Limit", "Util by Security dep", "Num of days outstanding", "OS to repayment"],
+        datasets: [
+            {
+                label: "{{dealer.dealerid}}",
+                backgroundColor: "rgba(220,220,220,0.2)",
+                borderColor: "rgba(220,220,220,1)",
+                pointBackgroundColor: "rgba(220,220,220,1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                data: [
+                        {{dealer.vintage_rating}},
+                        {{dealer.growth_rating}},
+                        {{dealer.severity_rating}},
+                        {{dealer.instances_rating}},
+                        {{dealer.recency_rating}},
+                        {{dealer.u1_rating}},
+                        {{dealer.u2_rating}},
+                        {{dealer.os_days_rating}},
+                        {{dealer.repayment_outstanding_ratio_rating}}
+                  ]
+            },
+            {
+                label: "Final Rating",
+                backgroundColor: getRatingColorFill({{dealer.final_rating}}),
+                borderColor: getRatingColor({{dealer.final_rating}}),
+                pointBackgroundColor: getRatingColor({{dealer.final_rating}}),
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(151,187,205,1)",
+                data: [{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}},{{dealer.final_rating}}]
+            }
+        ]
+    };
+
+    var radarOptions = {
+        scaleShowLine: true,
+        angleShowLineOut: true,
+        scaleShowLabels: false,
+        scaleBeginAtZero: true,
+        angleLineColor: "rgba(0,0,0,.1)",
+        angleLineWidth: 1,
+        pointLabelFontFamily: "'Arial'",
+        pointLabelFontStyle: "normal",
+        pointLabelFontSize: 10,
+        pointLabelFontColor: "#666",
+        pointDot: true,
+        pointDotRadius: 3,
+        pointDotStrokeWidth: 1,
+        pointHitDetectionRadius: 20,
+        datasetStroke: true,
+        datasetStrokeWidth: 2,
+        datasetFill: true,
+        responsive: true,
+
+}
+
+    var ctx = document.getElementById("radarChart").getContext("2d");
+    var myNewChart = new Chart(ctx, {
+    type: 'radar',
+    data: radarData,
+    options: radarOptions
+    });
+
+
+{#    var dData = function() {return Math.round(Math.random() * 90) + 101};#}
+
+    var barData = {
+
+    type : 'bar',
+    labels: ["Vintage", "Growth", "Severity", "Instance", "Recency", "Util by Credit Limit", "Util by Security dep", "Num of days outstanding", "OS to repayment"],
+    datasets: [
+
+         {
+                type: 'line',
+                label: 'Final rating',
+                data: [{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }},{{ dealer.final_rating }}],
+                borderColor:"rgba(50,150,200,1)",
+                backgroundColor:"rgba(0,0,0,0)",
+                lineTension:0,
+                pointStyle:'dash',
+                spanGaps: false,
+                borderDash: [6,6],
+
+         }
+        ,
+        {
+            label: "Dealer Rating",
+            data: [
+                        {{dealer.vintage_rating}},
+                        {{dealer.growth_rating}},
+                        {{dealer.severity_rating}},
+                        {{dealer.instances_rating}},
+                        {{dealer.recency_rating}},
+                        {{dealer.u1_rating}},
+                        {{dealer.u2_rating}},
+                        {{dealer.os_days_rating}},
+                        {{dealer.repayment_outstanding_ratio_rating}}
+            ],
+
+             backgroundColor: [
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)",
+                    "rgba(190,150,200,1)"
+                ],
+        }
+    ]};
+
+   var baroptions = {
+        responsive: true,
+        barValueSpacing: 8,
+        title: {
+            display: true,
+            position: "top",
+            text: "",
+            fontSize: 18,
+            fontColor: "#111"
+        },
+        legend: {
+            display: true,
+            position: "bottom",
+            labels: {
+                fontColor: "#333",
+                fontSize: 16
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0
+                }
+            }]
+        }
+    };
+
+     var barCtx = document.getElementById("barChart").getContext("2d");
+     var myBarChart = new Chart(barCtx, {
+    type: 'bar',
+    data: barData,
+    options:baroptions,
+
+
+});
+
+
+            // Gauge chart
+            var gaugevals = function(a) {
+                var mapped_a = (a/5.00)*100.00;
+                return 100.00-mapped_a
+            };
+            var data = {
+                series: [5, 3, 4]
+            };
+
+            var sum = function(a, b) { return a + b };
+
+{#            new Chartist.Pie('#ct-chart5', data, {#}
+{#                labelInterpolationFnc: function(value) {#}
+{#                    return Math.round(value / data.series.reduce(sum) * 100) + '%';#}
+{#                }#}
+{#            });#}
+
+            // Gauge chart
+
+
+            c3.generate({
+                bindto: '#ct-chart6',
+                data:{
+                    columns: [
+                        ['Overall Rating', {{dealer.final_rating}}]
+                    ],
+
+                    type: 'gauge'
+                },
+                color: {
+                    pattern: ['rgba(100,200,100,1)', 'rgba(250,250,50,1)', 'rgba(258,163,89,1)', 'rgba(237,85,101,1)'],
+                    threshold: {
+                        unit: 'value',
+                        values: [1.5, 2.5, 3.5, 4.5]
+                    }
+                },
+
+                gauge: {
+                    label:{
+                        format: function(value, ratio){
+                            return value; //returning here the value and not the ratio
+                        }
+                    },
+
+                    min: 0,
+                    max: 5,
+                }
+            });
+// Bar
+
+{#new Chartist.Line('#ct-chart1', {#}
+{#                labels: ["Vintage", "Growth", "Severity", "Instance", "Recency", "U_CL", "U_SD", "OS_Days", "OS_Repay"],#}
+{#                series: [#}
+{#                    [{{dealer.vintage_rating}},#}
+{#                        {{dealer.growth_rating}},#}
+{#                        {{dealer.severity_rating}},#}
+{#                        {{dealer.instances_rating}},#}
+{#                        {{dealer.recency_rating}},#}
+{#                        {{dealer.u1_rating}},#}
+{#                        {{dealer.u2_rating}},#}
+{#                        {{dealer.os_days_rating}},#}
+{#                        {{dealer.repayment_outstanding_ratio_rating}}]#}
+{#                ]#}
+{#            }, {#}
+{#                fullWidth: true,#}
+{#                chartPadding: {#}
+{#                    right: 40#}
+{#                }#}
+{#            });#}
+
+});
+{% endblock %}

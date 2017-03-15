@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<style type="text/css">
+        legend
+        {
+            padding: 0.2em 0.5em;
+            border: 1px solid #ccc;
+            color: #fff;
+            background-color: #1D5B74;
+            border-radius: 4px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .btn
+        {
+            display: inline-block;
+            outline: none;
+            background-color: #0A8696;
+            box-shadow: 2px 3px 5px #1D5B74;
+            border: 0px solid #ccc;
+            min-width: 100px;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+    </style>
+
+
+  <fieldset style="width: 95%; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px #666;">
+  <legend>
+            <span id="ContentPlaceHolder1_lblLegent" style="color:White;">Comparative Analysis</span></legend>
+
+
+             {% if dealerid1_obj and dealerid2_obj %}
+
+                  <div class="barChartClass gauge-back">
+                    <div >
+                    <div >
+                         <h5>Overall Ratings For {{dealerid1_obj.dealerid}} and {{dealerid2_obj.dealerid}} </h5>
+                         <div ibox-tools></div>
+                    </div>
+                    <div >
+                        <div>
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Overall Rating of {{dealerid1_obj.dealerid}} </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="ct1-chart6" class="ct-perfect-fourth"></div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Overall Rating of {{dealerid2_obj.dealerid}} </h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div id="ct2-chart6" class="ct-perfect-fourth"></div>
+                        </div>
+                    </div>
+                  </div>
+
+            {%else%}
+            <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+
+                        <div class="ibox-content">
+                            <form action=".">
+                              <div class="form-group">
+                                 <h5>Select Version</h5>
+                                  <select id="upload_date" class="upload_date" name="selected-date" selected="0">
+                                      <option value="">Select Date</option>
+                                     {% for date in dates %}
+                                       <option value="{{date}}">{{date}}</option>
+                                     {% endfor %}
+                                  </select>
+
+                                 <input type="text" placeholder="Enter first Dealer ID ..."  name="dealer-id1" >
+                                  <input type="text" placeholder="Enter second Dealer ID ..." name="dealer-id2" >
+                                  <br>
+                                  <input type="submit" value="compare" class="btn btn-success btn-primary" id="compare-deals">
+                                  {% if messages %}
+                                    {% for message in messages %}
+                                       <font color = 'red'>{{message}}</font>
+                                    {% endfor %}
+                                  {% endif %}
+                              </div>
+                           </form>
+                        </div>
+                    </div>
+            </div>
+            {%endif%}
+
+  </fieldset>
+
+
+{% endblock %}
+
+{% block nav %}
+                <li class="active">
+                   <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                </li>
+                <li class="active">
+                   <a href="upload/"><i class=""></i> <span class="nav-label">Upload Data</span></a>
+                </li>
+                <li class="active">
+                   <a href="compare/"><i class=""></i> <span class="nav-label">Analysis</span></a>
+                </li>
+{% endblock %}
+
+
+{% block js %}
+
+$(document).ready(function () {
+
+ var barData = {
+    type : 'bar',
+    labels: ["Vintage", "Growth", "Severity", "Instance", "Recency", "Util by Credit Limit", "Util by Security dep", "Num of days outstanding", "OS to repayment"],
+    datasets: [
+
+        {
+                type: 'line',
+                label: 'Final rating for DealerI',
+                data: [{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }},{{ dealerid1_obj.final_rating }}],
+                borderColor:"rgba(50,150,200,1)",
+                backgroundColor:"rgba(0,0,0,0)",
+                lineTension:0,
+                pointStyle:'dash',
+                spanGaps: false,
+                borderDash: [6,6],
+
+        }
+        ,
+           {
+                type: 'line',
+                label: 'Final rating for DealerII',
+                data: [{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }},{{ dealerid2_obj.final_rating }}],
+                borderColor:"rgba(255, 159, 64, 1)",
+                backgroundColor:"rgba(0,0,0,0)",
+                lineTension:0,
+                pointStyle:'dash',
+                spanGaps: false,
+                borderDash: [6,6],
+
+        }
+        ,
+        {
+            type: 'bar',
+            label : "Dealer I",
+            data: [
+                        {{dealerid1_obj.vintage_rating}},
+                        {{dealerid1_obj.growth_rating}},
+                        {{dealerid1_obj.severity_rating}},
+                        {{dealerid1_obj.instances_rating}},
+                        {{dealerid1_obj.recency_rating}},
+                        {{dealerid1_obj.u1_rating}},
+                        {{dealerid1_obj.u2_rating}},
+                        {{dealerid1_obj.os_days_rating}},
+                        {{dealerid1_obj.repayment_outstanding_ratio_rating}}
+            ],
+            backgroundColor: [
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)"
+                ],
+                borderColor: [
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)",
+                    "rgba(50,150,200,1)"
+                ],
+                borderWidth: 1
+        },
+
+        {
+            type: 'bar',
+            label : "Dealer II",
+            data: [
+                        {{dealerid2_obj.vintage_rating}},
+                        {{dealerid2_obj.growth_rating}},
+                        {{dealerid2_obj.severity_rating}},
+                        {{dealerid2_obj.instances_rating}},
+                        {{dealerid2_obj.recency_rating}},
+                        {{dealerid2_obj.u1_rating}},
+                        {{dealerid2_obj.u2_rating}},
+                        {{dealerid2_obj.os_days_rating}},
+                        {{dealerid2_obj.repayment_outstanding_ratio_rating}}
+            ],
+            backgroundColor: [
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderColor: [
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+        }
+
+    ]};
+
+
+  var baroptions = {
+        responsive: true,
+        barValueSpacing: 8,
+        title: {
+            display: true,
+            position: "top",
+            text: "",
+            fontSize: 18,
+            fontColor: "#111"
+        },
+        legend: {
+            display: true,
+            position: "bottom",
+            labels: {
+                fontColor: "#333",
+                fontSize: 16
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    min: 0
+                }
+            }]
+        }
+    };
+
+  var barCtx = document.getElementById("barChart").getContext("2d");
+  var myBarChart = new Chart(barCtx, {
+    type: 'bar',
+    data: barData,
+    options:baroptions,
+
+
+});
+
+
+ var getRatingColor = function(overallrating) {
+    if (overallrating < 1.5) {
+        return 'rgba(100,200,100,1)';
+    } else if (overallrating < 2.5) {
+        return 'rgba(250,250,50,1)';
+    } else if (overallrating < 3.5) {
+        return 'rgba(258,163,89,1)';
+    } else {
+        return 'rgba(237,85,101,1)';
+    }
+}
+var getRatingColorFill = function(overallrating) {
+    if (overallrating < 1.5) {
+        return 'rgba(100,200,100,0.2)';
+    } else if (overallrating < 2.5) {
+        return 'rgba(250,250,50,0.2)';
+    } else if (overallrating < 3.5) {
+        return 'rgba(258,163,89,0.2)';
+    } else {
+        return 'rgba(237,85,101,0.2)';
+    }
+}
+
+ // Gauge chart
+            var gaugevals = function(a) {
+                var mapped_a = (a/5.00)*100.00;
+                return 100.00-mapped_a
+            };
+            var data = {
+                series: [5, 3, 4]
+            };
+
+            var sum = function(a, b) { return a + b };
+
+
+ c3.generate({
+                bindto: '#ct1-chart6',
+                data:{
+                    columns: [
+                        ['Overall Rating', {{dealerid1_obj.final_rating}}]
+                    ],
+
+                    type: 'gauge'
+                },
+                color: {
+                    pattern: ['rgba(100,200,100,1)', 'rgba(250,250,50,1)', 'rgba(258,163,89,1)', 'rgba(237,85,101,1)'],
+                    threshold: {
+                        unit: 'value',
+                        values: [1.5, 2.5, 3.5, 4.5]
+                    }
+                },
+
+                gauge: {
+                    label:{
+                        format: function(value, ratio){
+                            return value; //returning here the value and not the ratio
+                        }
+                    },
+
+                    min: 0,
+                    max: 5,
+                }
+            });
+
+
+c3.generate({
+                bindto: '#ct2-chart6',
+                data:{
+                    columns: [
+                        ['Overall Rating', {{dealerid2_obj.final_rating}}]
+                    ],
+
+                    type: 'gauge'
+                },
+                color: {
+                    pattern: ['rgba(100,200,100,1)', 'rgba(250,250,50,1)', 'rgba(258,163,89,1)', 'rgba(237,85,101,1)'],
+                    threshold: {
+                        unit: 'value',
+                        values: [1.5, 2.5, 3.5, 4.5]
+                    }
+                },
+
+                gauge: {
+                    label:{
+                        format: function(value, ratio){
+                            return value; //returning here the value and not the ratio
+                        }
+                    },
+
+                    min: 0,
+                    max: 5,
+                }
+            });
+
+
+
+});
+{% endblock %}

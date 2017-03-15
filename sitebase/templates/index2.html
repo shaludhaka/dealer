@@ -1,0 +1,856 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block body %}
+
+          <div class="row wrapper border-bottom white-bg page-heading">
+             <div class="col-lg-10">
+                <h2>Chart.js</h2>
+                <ol class="breadcrumb">
+                   <li>
+                      <a href="/">Home</a>
+                   </li>
+                   <li>
+                      <a>Dealer Rating</a>
+                   </li>
+                   {% if dealer %}
+                   <li class="active">
+                      <strong>{{dealer.dealerid}}</strong>
+                   </li>
+                   {% endif %}
+                </ol>
+             </div>
+             <div class="col-lg-2">
+             </div>
+          </div>
+         <div class="wrapper wrapper-content">
+
+
+            <div class="row m-b-lg m-t-lg">
+                <div class="col-md-6">
+
+                    <div class="profile-image">
+                        <img src='{% static "img/a4.jpg" %}' class="img-circle circle-border m-b-md" alt="profile">
+                    </div>
+                    <div class="profile-info">
+                        <div class="">
+                            <div>
+                                <h2 class="no-margins">
+                                    Rahul Kapil
+                                </h2>
+                                <h4>Father Name</h4>
+                                <small>
+                                    tarunbehal@hotmail.com <br/>
+                                    9718936333
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <table class="table small m-b-xs">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <strong>29/11/1988</strong> DOB
+                            </td>
+                            <td>
+                                <strong>29</strong> Age
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>MALE</strong>
+                            </td>
+                            <td>
+                                <strong>Single</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>1</strong> Dependant
+                            </td>
+                            <td>
+                                <strong>Grad</strong> (Max Qual.)
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+          </div>
+            <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Customer Details</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <span class="col-lg-3">
+
+                                        <h3>Official Documents</h3>
+
+                                         <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>PAN</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>29</strong>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Aadhar</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>400234</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Voter Id</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+
+
+                        </span>
+                        <span class="col-lg-3">
+
+                                        <h3>Permanent Address Details</h3>
+
+                                         <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Address</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>29</strong>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Ownership Status</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>400234</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Residing Since</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Phone No.</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+
+
+                        </span>
+                        <span class="col-lg-3">
+
+                                        <h3>Customer Category</h3>
+
+                                         <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Community</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>29</strong>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Religion</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>400234</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Person with Disability</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                        </span>
+                        <span class="col-lg-3">
+
+                                <h3>KYC Documents Taken</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Doc 1</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Doc 2</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Doc 3</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div class="ibox-title">
+                        <h5>Employers Detail</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+
+                        <div class="col-lg-6">
+                                        <h3>Employment Details</h3>
+
+                                         <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Buisness Name</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>29</strong>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Buisness Type</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>400234</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Industry</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Sub Industry</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Number of Years working</strong>
+                                                </td>
+                                                <td>
+                                                    <strong>AS&88</strong>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                        </div>
+                        <div class="col-lg-6">
+
+                                <h3>Employers Address</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Address</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Pincode</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Phone No</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Email</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div class="ibox-title">
+                        <h5>Customer Evaluation</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="col-lg-9">
+
+                                        <h3>Bureau Details</h3>
+
+                                         <table class="table small m-b-xs">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>Last Loan Taken</strong>
+                                                </td>
+                                                <td>
+                                                    213
+                                                </td>
+                                                <td>
+                                                    <strong>Cibil History Since</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Live Loans Count</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Secured Live Loans</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Unsecured Live Loans</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Live Credit Cards</strong>
+                                                </td>
+                                                <td>
+                                                    213
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Highest un-secured loan taken</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Max high credit on card</strong>
+                                                </td>
+                                                <td>
+                                                    231
+                                                </td>
+                                                <td>
+                                                    <strong>Status Account Count</strong>
+                                                </td>
+                                                <td>
+                                                    213
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Current Overdue Account Count</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Current Overdue Amount</strong>
+                                                </td>
+                                                <td>
+                                                    312123
+                                                </td>
+                                                <td>
+                                                    <strong>Current Overdue Account Outstanding</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>Peak obligation serviced</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Cibil TU Score 2</strong>
+                                                </td>
+                                                <td>
+                                                    123
+                                                </td>
+                                                <td>
+                                                    <strong>Enquiries in last 30 days</strong>
+                                                </td>
+                                                <td>
+                                                    312
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>New to unsecured loan?</strong>
+                                                </td>
+                                                <td>
+                                                    No
+                                                </td>
+                                                <td>
+                                                    <strong>Number of unsecured loans</strong>
+                                                </td>
+                                                <td>
+                                                    2
+                                                </td>
+                                                <td>
+                                                    <strong>Partly disbursed loans</strong>
+                                                </td>
+                                                <td>
+                                                    1
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+
+                        </div>
+
+                        <div class="col-lg-3">
+                                <h3>Banking Details</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Bank</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Account Number</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Chq Bounces</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>EMI Bounces</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Avg Balance (6 Months)</strong>
+                                        </td>
+                                        <td>
+                                            <strong>AS&88</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div class="ibox-title">
+                        <h5>Usage Detail</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                                <h3>Usage Details</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Handset Used</strong>
+                                        </td>
+                                        <td>
+                                            29
+                                        </td>
+
+                                        <td>
+                                            <strong>App start time</strong>
+                                        </td>
+                                        <td>
+                                            1212
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>App end time</strong>
+                                        </td>
+                                        <td>
+                                            1212
+                                        </td>
+                                        <td>
+                                            <strong>Applied through</strong>
+                                        </td>
+                                        <td>
+                                            1212
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Browser</strong>
+                                        </td>
+                                        <td>
+                                            121212
+                                        </td>
+                                        <td>
+                                            <strong>OS</strong>
+                                        </td>
+                                        <td>
+                                            12123
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Service Provider</strong>
+                                        </td>
+                                        <td>
+                                            123
+                                        </td>
+                                        <td>
+                                            <strong>OS (Mobile)</strong>
+                                        </td>
+                                        <td>
+                                            213123
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Screen Size</strong>
+                                        </td>
+                                        <td>
+                                            12312
+                                        </td>
+                                        <td>
+                                            <strong>Service Provider (Mobile)</strong>
+                                        </td>
+                                        <td>
+                                            12312
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                </div>
+                    </div>
+                </div>
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div class="ibox-title">
+                        <h5>Ownership</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                                <h3>Ownership</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Vehicle</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Property</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ibox collapsed">
+                    <div class="ibox-title">
+                        <h5>Loan Details</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                                <h3>Loan Details</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Amount of Loan</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Purpose of Loan</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>CoinTribe Indices & Recommendations</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-down"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content" style="display: block;">
+                                <div class="col-lg-6">
+                                <h3>CT Indices</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Resilience Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+                                        <td>
+                                            <strong>Credit Severity Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Recent Behaviour Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                        <td>
+                                            <strong>Bias Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Enquiries Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                        <td>
+                                            <strong>Pedigree Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Seniority Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                        <td>
+                                            <strong>Stability Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Growth Index</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                </div>
+                                <div class="col-lg-6">
+                                <h3>Cointribe Recommendation</h3>
+
+                                 <table class="table small m-b-xs">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>Risk Rating</strong>
+                                        </td>
+                                        <td>
+                                            <strong>29</strong>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Proposed Max EMI (CT)</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>FOIR at proposed EMI (CT)</strong>
+                                        </td>
+                                        <td>
+                                            <strong>400234</strong>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+{% endblock %}
+
+{% block nav %}
+                <li class="active">
+                   <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                </li>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

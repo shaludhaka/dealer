@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+                      <ul class="nav navbar-top-links navbar-right">
+
+                            <li>
+                                <a href="download">
+                                <i class="fa fa-sign-out"></i>Download csv
+                                </a>
+                            </li>
+                      </ul>
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">All Dealers Ratings</h3>
+                    </div>
+
+                    <div class="panel-body" id="content">
+                      <table class="table table-bordered" border="1" style="width:200px">
+
+                        <tr>
+                            <th> DealerId </th>
+                            <th> Vintage </th>
+                            <th> Severity </th>
+                            <th> Growth </th>
+                            <th> Util by Credit Limit </th>
+                            <th> Util by Security dep </th>
+                            <th> Recency </th>
+                            <th> Num of days outstanding </th>
+                            <th> Instance </th>
+                            <th> OS to repayment </th>
+                            <th> Final Rating</th>
+                        </tr>
+                        {% for row in dealers %}
+                        <tr>
+                            <td> {{row.dealerid}}  </td>
+                            <td> {{row.vintage_rating}}   </td>
+                            <td> {{row.severity_rating}}   </td>
+                            <td> {{row.growth_rating}}   </td>
+                            <td> {{row.u1_rating}}   </td>
+                            <td> {{row.u2_rating}}   </td>
+                            <td> {{row.recency_rating}}   </td>
+                            <td> {{row.os_days_rating}}   </td>
+                            <td> {{row.instances_rating}}   </td>
+                            <td> {{row.repayment_outstanding_ratio_rating}}   </td>
+                            <td> {{row.final_rating}}   </td>
+                        </tr>
+                        {% endfor %}
+                      </table>
+                      {% if dealers.has_other_pages  %}
+                            <ul class="pagination">
+                                {% if dealers.has_previous %}
+                                    <li><a href="?page={{ dealers.previous_page_number }}">{{ dealers.number }}</a></li>
+                                {% else %}
+                                     <li class="disabled"><span>{{ dealers.number }}</span></li>
+                                {% endif %}
+                                {% for i in page.page_range  %}
+                                    {% if dealers.number == i  %}
+                                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if dealers.has_next %}
+                                    <li><a href="?page={{ dealers.next_page_number }}">{{ dealers.next_page_number }}</a></li>
+                                {% else %}
+                                    <li class="disabled"><span>{{ dealers.next_page_number }}</span></li>
+                                {% endif %}
+                            </ul>
+                      {% endif %}
+
+                    </div>
+
+
+
+{% endblock %}
+{% block nav %}
+                <li class="active">
+                   <a href="/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+                </li>
+
+{% endblock %}
+
+<!--{% block js %}-->
+<!--$(document).ready(function () {-->
+                                        <!--$('.pagination').bootpag({-->
+                                                      <!--total:{{paginator.count}},-->
+                                                      <!--maxVisible: 10-->
+                                        <!--}).on('page', function(event, num){-->
+                                           <!--$(".content").html( )-->
+
+                                        <!--});-->
+
+
+<!--});-->
+<!--{% endblock %}-->
