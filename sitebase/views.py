@@ -3,7 +3,7 @@ from .models import SalesData,FinalRatings,DealerData,PaymentData
 from django.shortcuts import render, redirect
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from braces.views import LoginRequiredMixin
 from utils import *
 import csv
 from django.core.paginator import EmptyPage, PageNotAnInteger

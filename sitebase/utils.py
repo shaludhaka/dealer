@@ -257,9 +257,13 @@ def validate_dealer_data(frame_dealer_complete):
         valid_columns = list(frame_dealer_complete.columns)
         valid_columns = map(lambda x:x.lower().strip(),valid_columns)
         schema_headers = ['week_date','week_trend','company_code','account_group','category','customer_code','credit_limit',
-                          'outstanding_amount','not_due_amount','0_30_days_os','31_60_days_os','61 _90_days_os','91_120_days_os',
+                          'outstanding_amount','not_due_amount','0_30_days_os','31_60_days_os','61_90_days_os','91_120_days_os',
                           '121_180_days_os','181_365_days_os','greater_than_365_days_os','overdue_amount','less_than_180_days_overdue',
                           'greater_than_180_days_overdue','security_deposit','no_of_days_os']
+
+        print valid_columns
+        schema_headers = [str(val) for val in schema_headers]
+        print schema_headers
 
         if len(valid_columns) == 21 and valid_columns == schema_headers:
             return True
@@ -398,20 +402,27 @@ def recency_rating(frame_severity,user,uploaddatetime):
     print "rows with 2   ,,,,,,,,,,,,,,,"
     sorted_frame = sorted_frame.groupby(["dealerId"]).filter(lambda x: len(x) >= 8)
 
-    sorted_frame = sorted_frame.groupby('dealerId', as_index=False)['severity'].sum()
+    #sorted_frame = sorted_frame.groupby('dealerId', as_index=False)['severity'].sum()
     print sorted_frame[:2]
     sorted_frame['Rating'] = 1
     print sorted_frame[:2]
     latest_4_severities = sorted_frame.groupby('dealerId').tail(4)
-    latest_4_severities = latest_4_severities.groupby('dealerId', as_index=False)['severity'].sum().filter(
-        ['dealerId', 'severity'], axis=1)
+    # latest_4_severities = latest_4_severities.groupby('dealerId', as_index=False)['severity'].sum().filter(
+    #     ['dealerId', 'severity'], axis=1)
     temp = sorted_frame.groupby("dealerId", as_index=False).apply(lambda x: x.iloc[:-4])
-    last_5_8_severities = temp.groupby('dealerId').tail(4).groupby('dealerId', as_index=False)['severity'].sum().filter(
-        ['dealerId', 'severity'], axis=1)
-    last_5_8_severities[last_5_8_severities['severity'] <= 0] = 0.1
+    last_5_8_severities = temp.groupby('dealerId').tail(4)
+    # last_5_8_severities = temp.groupby('dealerId').tail(4).groupby('dealerId', as_index=False)['severity'].sum().filter(
+    #     ['dealerId', 'severity'], axis=1)
+    dealerID = list(last_5_8_severities['dealerId'].values)
+    wt = list(last_5_8_severities['week_trend'].values)
+    severity = list(last_5_8_severities['severity'].values)
+    new_frame_5_8 = DataFrame({'dealerId': Series(dealerID), 'week_trend': Series(wt), 'severity': Series(severity)})
+    new_frame_5_8[new_frame_5_8['severity'] <= 0] = 0.1
+    last_four = latest_4_severities.groupby(['dealerId'],as_index=False)['severity'].sum()
+    last_to_last_four = new_frame_5_8.groupby(['dealerId'],as_index=False)['severity'].sum()
     print "resultant frame"
-    latest_4_severities['average'] = latest_4_severities['severity'] / last_5_8_severities['severity']
-    resultant_frame = latest_4_severities
+    last_four['average'] = last_four['severity'] / last_to_last_four['severity']
+    resultant_frame = last_four
     resultant_frame.drop(['severity'], inplace=True, axis=1)
     print resultant_frame
     resultant_frame['rating'] = resultant_frame['average'].apply(final_recency)
@@ -464,7 +475,7 @@ def rename_frame(frame):
     frame=frame.fillna(0)
     frame['DPD0'] = frame['0_30_Days_OS'].apply(parse_num)
     frame['DPD1'] = frame['31_60_Days_OS'].apply(parse_num)
-    frame['DPD2'] = frame['61 _90_Days_OS'].apply(parse_num)
+    frame['DPD2'] = frame['61_90_Days_OS'].apply(parse_num)
     frame['91_120_Days_OS'] = frame['91_120_Days_OS'].apply(parse_num)
     frame['121_180_Days_OS'] = frame['121_180_Days_OS'].apply(parse_num)
     frame['DPD3'] = frame['91_120_Days_OS']+frame['121_180_Days_OS']
@@ -475,7 +486,7 @@ def rename_frame(frame):
     frame['DPD4'] = frame['181_365_Days_OS']+frame["greater_than_365_Days_OS"]+frame['less_than_180_Days_Overdue']+\
                     frame['greater_than_180_Days_Overdue']
     #print frame[:5]
-    frame=frame.drop(['0_30_Days_OS','31_60_Days_OS','61 _90_Days_OS','91_120_Days_OS','121_180_Days_OS','181_365_Days_OS',"greater_than_365_Days_OS",
+    frame=frame.drop(['0_30_Days_OS','31_60_Days_OS','61_90_Days_OS','91_120_Days_OS','121_180_Days_OS','181_365_Days_OS',"greater_than_365_Days_OS",
                       'less_than_180_Days_Overdue','greater_than_180_Days_Overdue'],axis=1)
     frame['outstanding_amount'] = frame['outstanding_amount'].apply(parse_num)
 
